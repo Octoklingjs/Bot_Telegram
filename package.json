@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "s": "node index.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
+    "nodemon": "^3.0.2",
     "telegram-bot-api": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5"
   }
 }
