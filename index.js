@@ -41,14 +41,19 @@ function editAMessage(){
 }
 
 api.on("update", async update =>{ //Lorsque le bot est sollicité
-    console.log(update)
+
     if(update.callback_query){
         let interaction = update.callback_query;
         let dataInteraction = interaction.data;
-        console.log(dataInteraction)
         if(dataInteraction == "lolocheHello"){
             await sendAMessage("0", octoChat, interaction.from.first_name + " te dit bonjour ^^", "Markdown", {});
-            await sendAMessage(interaction.message.message_id, interaction.message.chat.id, " Bonjour envoyé !", "Markdown", {});
+            //await sendAMessage(interaction.message.message_id, interaction.message.chat.id, " Bonjour envoyé !", "Markdown", {});
+            //console.log(interaction.message.message_id)
+            await api.editMessageReplyMarkup({
+                chat_id: interaction.message.chat.id,
+                message_id: interaction.message.message_id,
+                reply_markup: {inline_keyboard: [[{ text: 'Vous avez dit bonjour', callback_data: "1"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}
+            }).catch(console.err)
         }
     }
 
@@ -56,14 +61,29 @@ api.on("update", async update =>{ //Lorsque le bot est sollicité
         let chat = update.message.chat; //Récupère le chat du message envoyé
         let messageContent = update.message.text.toString() //Convertir le message envoyé en string
         if(messageContent.startsWith("/")){
-            let args = messageContent.split("/").join(" ").split(" ").slice(1); //Supprime le / des commandes + divise les arguments
+            let command = messageContent.split(" ")[0].replace("/", "").toString().toLowerCase();
+            let args = messageContent.split(" ").slice(1); //Supprime le / des commandes + divise les arguments
 
-            if(args[0] == "ping"){
+            console.log(args);
+
+            if(command == "ping"){
                 await sendAMessage("0", chat.id, "pong", "", {})
             }
 
-            if(args[0] == "start"){
-                await sendAMessage("0", chat.id, "Salut à toi !\nPour l'instant je suis encore en développement par Octokling", "Markdown", {inline_keyboard: [[{ text: 'Say hello to loloche', callback_data: "lolocheHello" }, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]})
+            if(command == "start"){
+                await sendAMessage("0", chat.id, "Salut à toi !\nPour l'instant je suis encore en développement par Octokling", "Markdown", {inline_keyboard: [[{ text: 'Dire bonjour à Loloche', callback_data: "lolocheHello"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]})
+            }
+
+            if(command == "ytb"){
+                if(args[0]){
+                    if(args[0].startsWith("https://www.youtube.com/watch?v=")){
+                        
+                    }else{
+                        await sendAMessage(update.message.message_id, chat.id, "Ce que vous avez envoyé n'est pas un lien YouTube", "Markdown", {});
+                    }
+                }else{
+                    await sendAMessage(update.message.message_id, chat.id, "Vous n'avez pas envoyé de lien YouTube", "Markdown", {});
+                }
             }
         }
     }
