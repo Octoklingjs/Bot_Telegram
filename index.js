@@ -37,7 +37,7 @@ function sendAMessage(replyId, chatId, text, parse_mode, reply_markup){
 }
 
 function editAMessage(){
-    api.
+    
 }
 
 api.on("update", async update =>{ //Lorsque le bot est sollicité
