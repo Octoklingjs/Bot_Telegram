@@ -1,5 +1,9 @@
 var telegram = require("telegram-bot-api");
+var dotenv = require("dotenv");
+dotenv.config()
+
+console.log(process.env.TOKEN)
 
 const api = new telegram({
-    token: "6830217846:AAGInncUEzdGEkK2AG1_0FRD3ijzEyLM0sg"
+    token: process.env.TOKEN
 })
