@@ -36,6 +36,10 @@ function sendAMessage(replyId, chatId, text, parse_mode, reply_markup){
     }
 }
 
+function editAMessage(){
+    api.
+}
+
 api.on("update", async update =>{ //Lorsque le bot est sollicité
     console.log(update)
     if(update.callback_query){
@@ -59,7 +63,7 @@ api.on("update", async update =>{ //Lorsque le bot est sollicité
             }
 
             if(args[0] == "start"){
-                await sendAMessage("0", chat.id, "Salut à toi !\nPour l'instant je suis encore en développement par Octokling", "Markdown", {inline_keyboard: [[{ text: 'Say hello to loloche', callback_data: "lolocheHello" }], [{ text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]})
+                await sendAMessage("0", chat.id, "Salut à toi !\nPour l'instant je suis encore en développement par Octokling", "Markdown", {inline_keyboard: [[{ text: 'Say hello to loloche', callback_data: "lolocheHello" }, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]})
             }
         }
     }
