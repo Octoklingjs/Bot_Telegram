@@ -11,5 +11,8 @@
     "url": "Bot_Telegram"
   },
   "author": "Octokling & Xiizu",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "telegram-bot-api": "^2.0.1"
+  }
 }
