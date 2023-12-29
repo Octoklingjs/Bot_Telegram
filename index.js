@@ -1,5 +1,7 @@
 var telegram = require("telegram-bot-api");
 var dotenv = require("dotenv");
+import { BcDLP } from 'bc-dlp'
+const bcDLP = new BcDLP('yt-dlp')
 dotenv.config()
 
 const octoChat = "6252590790"
