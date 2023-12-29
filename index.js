@@ -1,7 +1,10 @@
 var telegram = require("telegram-bot-api");
 var dotenv = require("dotenv");
-import { BcDLP } from 'bc-dlp'
-const bcDLP = new BcDLP('yt-dlp')
+
+const ytdl = require('ytdl-core');
+const ffmpeg = require("fluent-ffmpeg");
+const { randomInt } = require('crypto');
+
 dotenv.config()
 
 const octoChat = "6252590790"
@@ -38,10 +41,6 @@ function sendAMessage(replyId, chatId, text, parse_mode, reply_markup){
     }
 }
 
-function editAMessage(){
-    
-}
-
 api.on("update", async update =>{ //Lorsque le bot est sollicité
 
     if(update.callback_query){
@@ -61,12 +60,10 @@ api.on("update", async update =>{ //Lorsque le bot est sollicité
 
     if(update.message){
         let chat = update.message.chat; //Récupère le chat du message envoyé
-        let messageContent = update.message.text.toString() //Convertir le message envoyé en string
+        let messageContent = String(update.message.text)//Convertir le message envoyé en string
         if(messageContent.startsWith("/")){
             let command = messageContent.split(" ")[0].replace("/", "").toString().toLowerCase();
             let args = messageContent.split(" ").slice(1); //Supprime le / des commandes + divise les arguments
-
-            console.log(args);
 
             if(command == "ping"){
                 await sendAMessage("0", chat.id, "pong", "", {})
@@ -79,6 +76,10 @@ api.on("update", async update =>{ //Lorsque le bot est sollicité
             if(command == "ytb"){
                 if(args[0]){
                     if(args[0].startsWith("https://www.youtube.com/watch?v=")){
+                        
+                        var test = await sendAMessage("0", chat.id, "Traitement en cours...", "Markdown", {});
+                        console.log(test)
+                        //await downloadMusic(args[0]);
                         
                     }else{
                         await sendAMessage(update.message.message_id, chat.id, "Ce que vous avez envoyé n'est pas un lien YouTube", "Markdown", {});
@@ -96,4 +97,25 @@ function getInfos(){
     api.getMe()
     .then(console.log) //Si des informations ont été reçu
     .catch(console.err) //Si un message d'erreur à été envoyé
+}
+
+async function downloadMusic(link) {
+    try {
+        const audio = await ytdl(link, { filter: "audioonly" });
+        let  name = randomInt(10000, 99999)
+
+        console.log(info)
+
+        ffmpeg(audio)
+        .audioBitrate(128)
+        .save(`./audios/${name}.mp3`)
+        .on('end', () => {
+            return {status: "Success" + error, path: `./audios/${name}.mp3`}
+        });
+
+    } catch (error) {
+        console.error('Une erreur est survenue :', error);
+        return {status: "Une erreur est survenue :" + error}
+    }
+    return {status: "Aucune réponse de la requête."}
 }
