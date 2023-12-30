@@ -189,6 +189,10 @@ api.on("update", async update =>{ //Lorsque le bot est sollicité
                                 break;
                             
                             default:
+                                api.deleteMessage({ //Suppression du message da patience
+                                    chat_id: chat.id,
+                                    message_id: messageSended.message_id
+                                })
                                 await sendAMessage(update.message.message_id, chat.id, "Vous devez choisir si vous voulez obtenir la vidéo ou la musique\nExemple, si vous voulez la musique : ```Exemple /ytb music https://youtu.be/YOURVIDEO```\nSi vous voulez la vidéo : ```Exemple /ytb video https://youtu.be/YOURVIDEO```", "Markdown", {});
                         }
                     }else{
