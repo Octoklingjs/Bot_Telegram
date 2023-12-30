@@ -50,8 +50,6 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
         let chat = update.message.chat; //Récupère le chat du message envoyé
         let messageContent = String(update.message.text)//Convertir le message envoyé en string
 
-        console.log("Message Update: \nAuthor: " + update.message.from.first_name + "\nMessage: " + messageContent);
-
         if(messageContent.startsWith("/")){
             let command = messageContent.split(" ")[0].replace("/", "").toString().toLowerCase();
             let args = messageContent.split(" ").slice(1); //Supprime le / des commandes + divise les arguments
