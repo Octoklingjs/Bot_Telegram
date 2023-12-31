@@ -1,9 +1,18 @@
 {
-    "_Comment": "Certains langues seront disponible plus tard !",
-    "fr": "/fr",
-    "en": "/en",
-    "de": "/de",
-    "es": "es",
-
-    "other": "/fr"
+    "fr": [
+        "/fr/error_message.json",
+        "/fr/message.json"
+    ],
+    "en": [
+        "/en/error_message.json",
+        "/en/message.json"
+    ],
+    "de": [
+        "/de/error_message.json",
+        "/de/message.json"
+    ],
+    "es": [
+        "/es/error_message.json",
+        "/es/message.json"
+    ]
 }
