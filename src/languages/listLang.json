@@ -1,18 +1,18 @@
 {
     "fr": {
-        "errors": "./fr/error_message.json",
-        "messages": "./fr/message.json"
+        "errors": "./src/languages/fr/error_message.json",
+        "messages": "./src/languages/fr/messages.json"
     },
     "en": {
         "errors": "./en/error_message.json",
-        "messages": "./en/message.json"
+        "messages": "./en/messages.json"
     },
     "de": {
         "errors": "./de/error_message.json",
-        "messages": "./de/message.json"
+        "messages": "./de/messages.json"
     },
     "es": {
         "errors": "./es/error_message.json",
-        "messages": "./es/message.json"
+        "messages": "./es/messages.json"
     }
 }
