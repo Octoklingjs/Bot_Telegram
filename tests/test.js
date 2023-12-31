@@ -1,0 +1,1 @@
+var messages = require("./languages/getMessages.js")
