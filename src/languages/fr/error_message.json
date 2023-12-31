@@ -1,0 +1,18 @@
+{
+    "Y-00": "Une erreur inconnue est survenue, veuillez nous excuser pour la gêne occasionnée.",
+    "Y-01": "Une erreur est survenue lors du téléchargement du contenu, veuillez nous excuser pour la gêne occasionnée.",
+    "Y-02": "Une erreur est survenue lors, vérifiez la disponibilité de la vidéo.",
+    "Y-03": "Une erreur s'est produite lors de l'envoie de l'audio !",
+    "Y-04": "Une erreur s'est produite lors de l'envoie de la vidéo !",
+    "Y-05": "Nous ne pouvons pas vous envoyer le contenu. Fichier trop volumineux !",
+    "Y-06": "Vous devez préciser si vous voulez télécharger vidéo ou la musique",
+    "Y-07": "Le lien donné, n'est pas un lien YouTube traitable.",
+    "Y-08": "Il vous manque des arguments",
+    "Y-09": "Voici des exemples d'utilisation des commandes : ```Audio /ytb music https://youtu.be/YOURVIDEO``` ```Vidéo /ytb video https://youtu.be/YOURVIDEO```",
+
+    "U-00": "L'API n'est pas importé",
+    "U-01": "Des arguments obligatoires doivent être renseignés !",
+    "U-02": "Une erreur est survenue lors de l'envoie d'un message",
+    "U-03": "Une erreur est survenue lors de la suppression du message"
+
+}
