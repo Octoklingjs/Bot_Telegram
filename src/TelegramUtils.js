@@ -11,7 +11,6 @@ module.exports.importAPI = function (importedAPI){ api = importedAPI; }
  * @param parse_mode La méthode de mise à page : Markdown OU HTML
  * @param reply_markup Balisage de réponse pour l'envoi de boutons de bot : 
 */
-
 module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup){
     return new Promise((resolve, reject) => {
         if(api == undefined) reject({code: "U-00", codeError: ErrorCode["U-00"], error: "Aucun"});
@@ -22,8 +21,6 @@ module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mo
             if(replyId && replyId != undefined) sendJSON = Object.assign(sendJSON, {reply_to_message_id: replyId});
             if(parse_mode && parse_mode != undefined) sendJSON = Object.assign(sendJSON, {parse_mode: parse_mode});
             if(reply_markup && reply_markup != undefined) sendJSON = Object.assign(sendJSON, {reply_markup: reply_markup});
-
-            console.log(sendJSON.text)
 
             api.sendMessage(sendJSON)
             .then((result) => {
@@ -44,7 +41,6 @@ module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mo
  * @param parse_mode La méthode de mise à page : Markdown OU HTML
  * @param reply_markup Balisage de réponse pour l'envoi de boutons de bot : 
 */
-
 module.exports.deleteMessage = async function(chatId, messageId){
     return new Promise((resolve, reject) => {
         if(api == undefined) reject({code: "U-00", codeError: ErrorCode["U-00"], error: "Aucun"});

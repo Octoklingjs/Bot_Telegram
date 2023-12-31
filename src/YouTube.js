@@ -16,7 +16,6 @@ module.exports.downloadVideo = async function (link) {
             let  name = randomInt(10000, 99999)
 
             const video = await ytdl(link, { quality: '18' })
-            console.log(video)
 
             video.on('end', () => {
                 console.log("Video complete")
