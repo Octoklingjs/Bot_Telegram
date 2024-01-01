@@ -1,18 +1,18 @@
 {
     "fr": {
-        "errors": "./src/languages/fr/error_message.json",
+        "errors": "./src/languages/fr/errors.json",
         "messages": "./src/languages/fr/messages.json"
     },
     "en": {
-        "errors": "./en/error_message.json",
-        "messages": "./en/messages.json"
+        "errors": "./src/languages/en/errors.json",
+        "messages": "./src/languages/en/messages.json"
     },
     "de": {
-        "errors": "./de/error_message.json",
-        "messages": "./de/messages.json"
+        "errors": "./src/languages/de/errors.json",
+        "messages": "./src/languages/de/messages.json"
     },
     "es": {
-        "errors": "./es/error_message.json",
-        "messages": "./es/messages.json"
+        "errors": "./src/languages/es/errors.json",
+        "messages": "./src/languages/es/messages.json"
     }
 }

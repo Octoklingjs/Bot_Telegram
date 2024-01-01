@@ -4,8 +4,8 @@ const fs = require('fs');
 
 const { randomInt } = require('crypto');
 
-const ErrorCode = require("./error_message.json")
 const TelegramUtils = require("./TelegramUtils.js")
+const messageCode = require("./languages/getMessages.js")
 
 var api = undefined;
 
@@ -22,8 +22,8 @@ module.exports.downloadVideo = async function (link) {
                 resolve({status: "Success", path: `./medias/${name}.mp4`, title: info.videoDetails.title, performer: info.videoDetails.author.name, duration: info.videoDetails.lengthSeconds})
             });
 
-            video.on('error', err => {
-                return {status: ErrorCode["Y-01"] + err}
+            video.on('error', async err => {
+                return {status: await messageCode.getMessageLanguage("fr", "errors", "Y-01") + err}
             });
 
             video.pipe(fs.createWriteStream(`./medias/${name}.mp4`));
@@ -31,7 +31,7 @@ module.exports.downloadVideo = async function (link) {
             
         } catch (error) {
             console.error('Une erreur est survenue :', error);
-            resolve({status: ErrorCode["Y-00"] + error})
+            resolve({status: await messageCode.getMessageLanguage("fr", "errors", "Y-00") + error})
         }
     })
 }
@@ -50,14 +50,14 @@ module.exports.downloadMusic = async function (link) {
                 console.log("Audio complete")
                 resolve({status: "Success", path: `./medias/${name}.mp3`, title: info.videoDetails.title, performer: info.videoDetails.author.name, duration: info.videoDetails.lengthSeconds})
             })
-            .on('error', (error) => {
-                return {status: ErrorCode["Y-01"] + error}
+            .on('error', async (error) => {
+                return {status: await messageCode.getMessageLanguage("fr", "errors", "Y-00") + error}
             });
         })
 
     } catch (error) {
         console.error('Une erreur est survenue :', error);
-        return {status: ErrorCode["Y-00"]}
+        return {status: await messageCode.getMessageLanguage("fr", "errors", "Y-00")}
     }
 }
 
@@ -104,19 +104,19 @@ module.exports.startCommand = async function (TGapi, args, chat, update){
 
                             fs.unlink(downloadedMusic.path, (err) => {if (err) {console.error(err);}}); //Supprime le fichier audio téléchargé
                         })
-                        .catch(function(err){ //Capturer l'erreur sans faire crash le script
+                        .catch(async function(err){ //Capturer l'erreur sans faire crash le script
 
                                         if(err.code == 413){
                                             api.editMessageText({
                                                 chat_id: chat.id,
                                                 message_id: messageSended.message_id,
-                                                text: ErrorCode["Y-05"]
+                                                text: messageCode.getMessageLanguage("fr", "errors", "Y-05")
                                             })
                                         }else{
                                             api.editMessageText({
                                                 chat_id: chat.id,
                                                 message_id: messageSended.message_id,
-                                                text: ErrorCode["Y-03"]
+                                                text: await messageCode.getMessageLanguage("fr", "errors", "Y-03")
                                             })
                                         }
 
@@ -127,7 +127,7 @@ module.exports.startCommand = async function (TGapi, args, chat, update){
                                     api.editMessageText({
                                         chat_id: chat.id,
                                         message_id: messageSended.message_id,
-                                        text: ErrorCode["Y-02"]
+                                        text: await messageCode.getMessageLanguage("fr", "errors", "Y-02")
                                     })
                                 }
                                 break;
@@ -154,18 +154,18 @@ module.exports.startCommand = async function (TGapi, args, chat, update){
                                         })
                                         fs.unlink(downloadedVideo.path, (err) => {if (err) {console.error(err);}});
                                     })
-                                    .catch(function(err){
+                                    .catch(async function(err){
                                         if(err.code == 413){
                                             api.editMessageText({
                                                 chat_id: chat.id,
                                                 message_id: messageSended.message_id,
-                                                text: ErrorCode["Y-05"]
+                                                text: await messageCode.getMessageLanguage("fr", "errors", "Y-05")
                                             })
                                         }else{
                                             api.editMessageText({
                                                 chat_id: chat.id,
                                                 message_id: messageSended.message_id,
-                                                text: ErrorCode["Y-04"]
+                                                text: await messageCode.getMessageLanguage("fr", "errors", "Y-04")
                                             })
                                         }
                                         
@@ -176,19 +176,19 @@ module.exports.startCommand = async function (TGapi, args, chat, update){
                                     api.editMessageText({
                                         chat_id: chat.id,
                                         message_id: messageSended.message_id,
-                                        text: ErrorCode["Y-02"]
+                                        text: await messageCode.getMessageLanguage("fr", "errors", "Y-02")
                                     })
                                 }
                                 break;
                             
                             default:
                                 TelegramUtils.deleteMessage(chat.id, messageSended.message_id);
-                                await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-06"] + ErrorCode["Y-09"], update.message.message_id).catch(err => {console.log(err)})
+                                await TelegramUtils.sendTextMessage(chat.id, await messageCode.getMessageLanguage("fr", "errors", "Y-06") + await messageCode.getMessageLanguage("fr", "errors", "Y-09"), update.message.message_id, "Markdown").catch(err => {console.log(err)})
                         }
                     }else{
-                        await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-07"], update.message.message_id);
+                        await TelegramUtils.sendTextMessage(chat.id, await messageCode.getMessageLanguage("fr", "errors", "Y-07"), update.message.message_id);
                     }
                 }else{
-                    await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-08"] + "\n" + ErrorCode["Y-09"], update.message.message_id).catch(err => {console.log(err)})
+                    await TelegramUtils.sendTextMessage(chat.id, await messageCode.getMessageLanguage("fr", "errors", "Y-08") + "\n" + await messageCode.getMessageLanguage("fr", "errors", "Y-09"), update.message.message_id, "Markdown").catch(err => {console.log(err)})
                 }
 }
