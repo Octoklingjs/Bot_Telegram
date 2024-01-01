@@ -68,6 +68,11 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
             if(command == "ytb"){
                 YouTube.startCommand(tg, args, chat, update);
             }
+
+            if(command == "rep"){
+                //console.log(update)
+                TelegramUtils.sendTextMessage(chat.id, args[0], undefined, undefined, undefined, {type: "messages"})
+            }
         }
     }
 })

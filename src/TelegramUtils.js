@@ -1,4 +1,5 @@
 const ErrorCode = require("./error_message.json");
+const messageCode = require("./languages/getMessages.js")
 var api = undefined;
 
 module.exports.importAPI = function (importedAPI){ api = importedAPI; }
@@ -11,12 +12,25 @@ module.exports.importAPI = function (importedAPI){ api = importedAPI; }
  * @param parse_mode La méthode de mise à page : Markdown OU HTML
  * @param reply_markup Balisage de réponse pour l'envoi de boutons de bot : 
 */
-module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup){
-    return new Promise((resolve, reject) => {
+module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup, code){
+    return new Promise(async (resolve, reject) => {
         if(api == undefined) reject({code: "U-00", codeError: ErrorCode["U-00"], error: "Aucun"});
 
         if(chatId || text){
-            let sendJSON = {chat_id: chatId, text: text}
+            let sendJSON = {chat_id: chatId}
+
+            if(code){
+                if(code.type){
+                    await getMessage("fr", code.type, text)
+                    .then(message => {
+                        Object.assign(sendJSON, {text: message});
+                    })
+                    .catch(()=>{
+                        Object.assign(sendJSON, {text: text});
+                    })
+                }else{Object.assign(sendJSON, {text: text});}
+            }else{Object.assign(sendJSON, {text: text});}
+
 
             if(replyId && replyId != undefined) sendJSON = Object.assign(sendJSON, {reply_to_message_id: replyId});
             if(parse_mode && parse_mode != undefined) sendJSON = Object.assign(sendJSON, {parse_mode: parse_mode});
@@ -59,5 +73,17 @@ module.exports.deleteMessage = async function(chatId, messageId){
             });
 
         }else{ reject({code: "U-01", codeError: ErrorCode["U-01"], error: "Aucun"}); }
+    })
+}
+
+
+async function getMessage(lang, type, msgCode){
+    return new Promise((resolve, reject) =>{
+        messageCode.getMessageLanguage(lang, type, msgCode)
+        .then(result => {resolve(result)})
+        .catch((err)=> {
+            console.log("Je suis une erreur : " + err)
+            reject("Je suis une erreur")
+        })
     })
 }

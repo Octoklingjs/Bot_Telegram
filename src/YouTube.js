@@ -183,12 +183,12 @@ module.exports.startCommand = async function (TGapi, args, chat, update){
                             
                             default:
                                 TelegramUtils.deleteMessage(chat.id, messageSended.message_id);
-                                await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-06"] + ErrorCode["Y-09"], update.message.message_id);
+                                await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-06"] + ErrorCode["Y-09"], update.message.message_id).catch(err => {console.log(err)})
                         }
                     }else{
                         await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-07"], update.message.message_id);
                     }
                 }else{
-                    await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-08"] + "\n" + ErrorCode["Y-09"], update.message.message_id);
+                    await TelegramUtils.sendTextMessage(chat.id, ErrorCode["Y-08"] + "\n" + ErrorCode["Y-09"], update.message.message_id).catch(err => {console.log(err)})
                 }
 }
