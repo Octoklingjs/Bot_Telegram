@@ -1,3 +1,5 @@
 {
-    "test": "Hola !"
+    "start": "¡ Hola !\nPor ahora, aún estoy en desarrollo por Octokling.",
+    "lolocheHello": "Saluda a Loloche",
+    "lolocheHelloSayed": "Ustedes dijeron hola"
 }

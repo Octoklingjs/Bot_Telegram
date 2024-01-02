@@ -1,3 +1,5 @@
 {
-    "test": "Hi !"
+    "start": "Hi there !\nAt the moment, I am still in development by Octokling.",
+    "lolocheHello": "Say hello to Octokling",
+    "lolocheHelloSayed": "You said hello"
 }

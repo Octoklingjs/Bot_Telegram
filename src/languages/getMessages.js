@@ -24,7 +24,7 @@ module.exports.getMessageLanguage = async function (lang, type, msgCode){
                                 resolve(data[msgCode])
 
                             }else{reject("Le code du message recherché n'est pas disponible ou mal écrite")}
-                        }else{reject("Erreur FS : " + error);}
+                        }else{reject("Erreur FS: " + error);}
                     })
                 }else{reject("Le type recherché n'est pas disponible ou mal écrite")}
             }else{reject("La langue recherché n'est pas disponible ou mal écrite")}

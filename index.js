@@ -1,11 +1,12 @@
 var telegram = require("telegram-bot-api");
+const messageCode = require("./src/languages/getMessages.js")
 
 var dotenv = require("dotenv");
 dotenv.config()
 
 //Inclure les modules que j'ai créer pour rendre le code plus estétique ;)
 const YouTube = require("./src/YouTube.js")
-const TelegramUtils = require("./src/TelegramUtils.js")
+const TelegramUtils = require("./src/TelegramUtils.js");
 
 const octoChat = "6252590790" //C'est mon chatID avec le bot ;b
 
@@ -38,10 +39,14 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
         if(dataInteraction == "lolocheHello"){
             await TelegramUtils.sendTextMessage(octoChat, interaction.from.first_name + " te dit bonjour ^^");
 
+            let helloLoloche = "You said hello";
+                await messageCode.getMessageLanguage("fr", "messages", "lolocheHelloSayed")
+                .then(result => {helloLoloche = result})
+
             await tg.editMessageReplyMarkup({
                 chat_id: interaction.message.chat.id,
                 message_id: interaction.message.message_id,
-                reply_markup: {inline_keyboard: [[{ text: 'Vous avez dit bonjour', callback_data: "1"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}
+                reply_markup: {inline_keyboard: [[{ text: helloLoloche, callback_data: "1"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}
             }).catch(console.err)
         }
     }
@@ -62,15 +67,25 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
             }
 
             if(command == "start"){
-                TelegramUtils.sendTextMessage(chat.id, "Salut à toi !\nPour l'instant je suis encore en développement par Octokling", undefined, undefined, {inline_keyboard: [[{ text: 'Dire bonjour à Loloche', callback_data: "lolocheHello"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]});
+                let helloLoloche = "Say hello to loloche";
+                await messageCode.getMessageLanguage("fr", "messages", "lolocheHello")
+                .then(result => {helloLoloche = result})
+                TelegramUtils.sendTextMessage(chat.id, "start", undefined, undefined, {inline_keyboard: [[{ text: helloLoloche, callback_data: "lolocheHello"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}, "messages");
             }
 
             if(command == "ytb"){
                 YouTube.startCommand(tg, args, chat, update);
             }
 
-            if(command == "rep"){
-                TelegramUtils.sendTextMessage(chat.id, args[0], undefined, undefined, undefined, {type: "messages"})
+            if(command == "rep"){ //Permet de répéter ce que l'utilisateur à écrit. Si un code message est trouvé, il enverra le code message
+                TelegramUtils.sendTextMessage(chat.id, args[0], undefined, undefined, undefined, "messages")
+                .catch((err) =>{
+                    TelegramUtils.sendTextMessage(chat.id, err.code + ": " + err.codeError)
+                })
+            }
+
+            if(command == "test"){
+                TelegramUtils.sendTextMessage(chat.id, "Il y a plus rien à tester pour l'instant", update.message.message_id)
             }
         }
     }

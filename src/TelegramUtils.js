@@ -10,25 +10,24 @@ module.exports.importAPI = function (importedAPI){ api = importedAPI; }
  * @param text Le texte qui sera envoyé
  * @param replyId L'identifiant du message pour répondre depuis ce message
  * @param parse_mode La méthode de mise à page : Markdown OU HTML
- * @param reply_markup Balisage de réponse pour l'envoi de boutons de bot : 
+ * @param reply_markup Balisage de réponse pour l'envoi de boutons de bot
+ * @param code "messages" OR "errors"
 */
-module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup, code){
+module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup, codeMessage){
     return new Promise(async (resolve, reject) => {
         if(api == undefined) reject({code: "U-00", codeError: ErrorCode["U-00"], error: "Aucun"});
 
         if(chatId || text){
             let sendJSON = {chat_id: chatId}
 
-            if(code){
-                if(code.type){
-                    await getMessage("fr", code.type, text)
-                    .then(message => {
-                        Object.assign(sendJSON, {text: message});
-                    })
-                    .catch(()=>{
-                        Object.assign(sendJSON, {text: text});
-                    })
-                }else{Object.assign(sendJSON, {text: text});}
+            if(codeMessage){
+                await getMessage("fr", codeMessage, text)
+                .then(message => {
+                    Object.assign(sendJSON, {text: message});
+                })
+                .catch(()=>{
+                    Object.assign(sendJSON, {text: text});
+                })
             }else{Object.assign(sendJSON, {text: text});}
 
 
@@ -76,14 +75,24 @@ module.exports.deleteMessage = async function(chatId, messageId){
     })
 }
 
+module.exports.replaceBracketsByWords = async function (message, words){
+    return new Promise((resolve) => {
+        Object.entries(words).forEach(entry => {
+            const [key, value] = entry;
+            message = String(message).replace(`{${key}}`, value)
+          });
+          resolve(message)
+    })
+}
+
 
 async function getMessage(lang, type, msgCode){
     return new Promise((resolve, reject) =>{
         messageCode.getMessageLanguage(lang, type, msgCode)
         .then(result => {resolve(result)})
         .catch((err)=> {
-            console.log("Je suis une erreur : " + err)
-            reject("Je suis une erreur")
+            console.log("Erreur: " + err)
+            reject("Erreur: " + err)
         })
     })
 }
