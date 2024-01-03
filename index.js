@@ -1,12 +1,13 @@
 var telegram = require("telegram-bot-api");
-const messageCode = require("./src/languages/getMessages.js")
 
 var dotenv = require("dotenv");
 dotenv.config()
 
-//Inclure les modules que j'ai créer pour rendre le code plus estétique ;)
+//Inclure les modules que j'ai créé
 const YouTube = require("./src/YouTube.js")
 const TelegramUtils = require("./src/TelegramUtils.js");
+const messageCode = require("./src/languages/getMessages.js")
+const db = require("./src/database/user.js")
 
 const octoChat = "6252590790" //C'est mon chatID avec le bot ;b
 
@@ -35,7 +36,7 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
     if(update.callback_query){
         let interaction = update.callback_query;
         let dataInteraction = interaction.data;
-    
+
         if(dataInteraction == "lolocheHello"){
             await TelegramUtils.sendTextMessage(octoChat, interaction.from.first_name + " te dit bonjour ^^");
 
@@ -48,6 +49,11 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
                 message_id: interaction.message.message_id,
                 reply_markup: {inline_keyboard: [[{ text: helloLoloche, callback_data: "1"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}
             }).catch(console.err)
+
+            tg.answerCallbackQuery({
+                callback_query_id: interaction.id,
+                text: helloLoloche,
+            }).catch(err =>{console.log(err)})
         }
     }
 
@@ -85,7 +91,9 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
             }
 
             if(command == "test"){
-                TelegramUtils.sendTextMessage(chat.id, "Il y a plus rien à tester pour l'instant", update.message.message_id)
+                let helloLoloche = "Say hello to loloche";
+                await messageCode.getMessageLanguage("fr", "messages", "lolocheHello")
+                TelegramUtils.sendTextMessage(chat.id, "start", undefined, undefined, {inline_keyboard: [[{ text: helloLoloche, callback_data: "HeyLaMerde"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}, "messages");
             }
         }
     }
