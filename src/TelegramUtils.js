@@ -13,7 +13,7 @@ module.exports.importAPI = function (importedAPI){ api = importedAPI; }
  * @param reply_markup Balisage de réponse pour l'envoi de boutons de bot
  * @param code "messages" OR "errors"
 */
-module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup, codeMessage){
+module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup, codeMessage, lang){
     return new Promise(async (resolve, reject) => {
         if(api == undefined) reject({code: "U-00", codeError: ErrorCode["U-00"], error: "Aucun"});
 
