@@ -11,7 +11,8 @@ module.exports.importAPI = function (importedAPI){ api = importedAPI; }
  * @param replyId L'identifiant du message pour répondre depuis ce message
  * @param parse_mode La méthode de mise à page : Markdown OU HTML
  * @param reply_markup Balisage de réponse pour l'envoi de boutons de bot
- * @param code "messages" OR "errors"
+ * @param codeMessage "messages" OR "errors"
+ * @param lang Si c'est un code de message, alors la langue du message sortant
 */
 module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup, codeMessage, lang){
     return new Promise(async (resolve, reject) => {
@@ -21,7 +22,7 @@ module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mo
             let sendJSON = {chat_id: chatId}
 
             if(codeMessage){
-                await getMessage("fr", codeMessage, text)
+                await getMessage(lang, codeMessage, text)
                 .then(message => {
                     Object.assign(sendJSON, {text: message});
                 })

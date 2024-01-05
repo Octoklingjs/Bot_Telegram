@@ -34,6 +34,7 @@ function start(){
 
 tg.on("update", async update =>{ //Lorsque le bot est sollicité
     let userData = {};
+    let userLang = "en";
 
     if(update.callback_query){
         let interaction = update.callback_query;
@@ -47,7 +48,7 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
             await TelegramUtils.sendTextMessage(octoChat, interaction.from.first_name + " te dit bonjour ^^");
 
             let helloLoloche = "You said hello";
-                await messageCode.getMessageLanguage(userData.lang, "messages", "lolocheHelloSayed")
+                await messageCode.getMessageLanguage(userLang, "messages", "lolocheHelloSayed")
                 .then(result => {helloLoloche = result})
 
             await tg.editMessageReplyMarkup({
@@ -67,67 +68,76 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
         let chat = update.message.chat; //Récupère le chat du message envoyé
         let messageContent = String(update.message.text) //Convertir le message envoyé en string
 
+        userData = await verifyUser(update.message.from);
         if(!messageContent.startsWith("/start")){
-            console.log("Lancé")
-            userData = await verifyUser(update.message.from, update.message.chat.id);
-            if(userData.isExist != true) return;
+            if(userData.isExist != true){
+                return TelegramUtils.sendTextMessage(update.message.chat.id, "Hey, i never meet you before, nice to meet you !\nBy default i'll speaking with you in English. If you want to change the language, just use ```language /setLanguage yourLanguage```", undefined, "Markdown")
+            }
         }
 
         if((messageContent.startsWith("/") && userData.isExist == true) || messageContent.startsWith("/")){
-            let command = messageContent.split(" ")[0].replace("/", "").toString().toLowerCase();
+            let command = (((messageContent.split(" ")[0]).replace("/", "")).split("@")[0]).toLowerCase();
             let args = messageContent.split(" ").slice(1); //Supprime le / des commandes + divise les arguments
 
-            
+            if(userData.isExist){
+                userLang = userData.lang;
+            }
+            console.log("Language du bot: " + userLang);
 
-            if(command == "ping"){
-                TelegramUtils.sendTextMessage(chat.id, "Pong", update.message.message_id)
-                .catch((err) =>{
-                    console.log(err)
-                })
+            switch(command){
+                case "ping":
+
+                    TelegramUtils.sendTextMessage(chat.id, "Pong", update.message.message_id)
+                    .catch((err) =>{
+                        console.log(err)
+                    })
+
+                    break;
+                case "start":
+
+                    let helloLoloche = "Say hello to loloche";
+                    await messageCode.getMessageLanguage("userLang", "messages", "lolocheHello")
+                    .then(result => {helloLoloche = result})
+                    TelegramUtils.sendTextMessage(chat.id, "start", undefined, undefined, {inline_keyboard: [[{ text: helloLoloche, callback_data: "lolocheHello"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}, "messages", userLang);
+                    if(!userData.isExist) await userSettingsDB.addUserSettingsToDB(update.message.from);
+
+                    break;
+                case "youtube":
+                case "ytb":
+
+                    YouTube.startCommand(tg, args, chat, update, userLang);
+
+                    break;
+                case "setlanguage":
+
+                    userSettingsDB.changeUserLang(update.message.from, "fr").then(result => {
+                        console.log("Ok c'est bon")
+                    })
+
+                    break;
+                case "rep":
+
+                    TelegramUtils.sendTextMessage(chat.id, args[0], undefined, undefined, undefined, "messages", userLang)
+                    .catch((err) =>{
+                        TelegramUtils.sendTextMessage(chat.id, err.code + ": " + err.codeError)
+                    })
+
+                    break;
+                case "test":
+                    break;
             }
 
-            if(command == "start"){
-                let helloLoloche = "Say hello to loloche";
-                await messageCode.getMessageLanguage("en", "messages", "lolocheHello")
-                .then(result => {helloLoloche = result})
-                TelegramUtils.sendTextMessage(chat.id, "start", undefined, undefined, {inline_keyboard: [[{ text: helloLoloche, callback_data: "lolocheHello"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}, "messages", userData.lang);
-                await userSettingsDB.addUserSettingsToDB(update.message.from);
-            }
-
-            if(command == "youtube" || command == "ytb"){
-                YouTube.startCommand(tg, args, chat, update, userData.lang);
-            }
-
-            if(command == "setlanguage"){
-                userSettingsDB.changeUserLang(update.message.from, "fr").then(result => {
-                    console.log("Ok c'est bon")
-                })
-            }
-
-            if(command == "rep"){ //Permet de répéter ce que l'utilisateur à écrit. Si un code message est trouvé, il enverra le code message
-                TelegramUtils.sendTextMessage(chat.id, args[0], undefined, undefined, undefined, "messages", userData.lang)
-                .catch((err) =>{
-                    TelegramUtils.sendTextMessage(chat.id, err.code + ": " + err.codeError)
-                })
-            }
-
-            if(command == "test"){
-                let helloLoloche = "Say hello to loloche";
-                await messageCode.getMessageLanguage(userData.lang, "messages", "lolocheHello")
-                TelegramUtils.sendTextMessage(chat.id, "start", undefined, undefined, {inline_keyboard: [[{ text: helloLoloche, callback_data: "HeyLaMerde"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}, "messages", userData.lang);
-            }
         }
     }
 })
 
-async function verifyUser(userInfo, chatId){
+async function verifyUser(userInfo){
     return new Promise(async (resolve, reject) => {
 
         await userSettingsDB.verificationUserAndGetData(userInfo.id)
         .then(async result => {
             if(result.isExist == false){
                 await userSettingsDB.addUserSettingsToDB(userInfo);
-                TelegramUtils.sendTextMessage(chatId, "Hey, i never meet you before, nice to meet you !\nBy default i'll speaking with you in English. If you want to change the language, just use ```language /setLanguage yourLanguage```", undefined, "Markdown")
                 resolve(result)
             }else{
                 resolve(result)

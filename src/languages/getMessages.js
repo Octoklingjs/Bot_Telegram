@@ -11,6 +11,7 @@ var langAvailable = listLang;
  * @author Octokling
  */
 module.exports.getMessageLanguage = async function (lang, type, msgCode){
+    console.log(lang)
     return new Promise((resolve, reject) => {
         if(lang && type && msgCode){
             if(langAvailable.hasOwnProperty(lang)){
