@@ -15,6 +15,7 @@ module.exports.importAPI = function (importedAPI){ api = importedAPI; }
  * @param lang Si c'est un code de message, alors la langue du message sortant
 */
 module.exports.sendTextMessage = async function (chatId, text, replyId, parse_mode, reply_markup, codeMessage, lang){
+    console.log(lang)
     return new Promise(async (resolve, reject) => {
         if(api == undefined) reject({code: "U-00", codeError: ErrorCode["U-00"], error: "Aucun"});
 

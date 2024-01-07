@@ -36,6 +36,8 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
     let userData = {};
     let userLang = "en";
 
+    console.log(update)
+
     if(update.callback_query){
         let interaction = update.callback_query;
         let dataInteraction = interaction.data;
@@ -96,7 +98,7 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
                 case "start":
 
                     let helloLoloche = "Say hello to loloche";
-                    await messageCode.getMessageLanguage("userLang", "messages", "lolocheHello")
+                    await messageCode.getMessageLanguage(userLang, "messages", "lolocheHello")
                     .then(result => {helloLoloche = result})
                     TelegramUtils.sendTextMessage(chat.id, "start", undefined, undefined, {inline_keyboard: [[{ text: helloLoloche, callback_data: "lolocheHello"}, { text: 'GitHub Repository', url: "https://github.com/Octoklingjs/Bot_Telegram" }]]}, "messages", userLang);
                     if(!userData.isExist) await userSettingsDB.addUserSettingsToDB(update.message.from);
@@ -124,6 +126,8 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
 
                     break;
                 case "test":
+                    TelegramUtils.sendTextMessage("6563027874", "Bonjour, je me suis incrusté. C'était juste un test.\n\nCe test va-t-il marché first try ?")
+                    .catch(err => console.log(err))
                     break;
             }
 
