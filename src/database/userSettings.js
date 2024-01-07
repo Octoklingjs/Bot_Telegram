@@ -13,12 +13,13 @@ const client = new MongoClient(uri, {
   }
 });
 
+client.connect();
+
 module.exports.verificationUserAndGetData = async function(userID){
     return new Promise(async (resolve, reject) => {
         try{
             if(!userID || typeof userID != "number") return reject("Entrez un userID correct en format int");
 
-            await client.connect();
             let db = client.db("Users");
             let collection = db.collection("Settings");
     
@@ -32,8 +33,10 @@ module.exports.verificationUserAndGetData = async function(userID){
                 resolve({isExist: false})
             }
     
-        } finally {
-          await client.close();
+        }
+        catch(err)
+        {
+            reject(err);
         }
     })
 }
@@ -43,7 +46,6 @@ module.exports.addUserSettingsToDB = async function(userInfo){
         try{
             if(!userInfo || typeof userInfo != "object") return reject("Entrez un userInfo correct en format array");
 
-            await client.connect();
             let db = client.db("Users");
             let collection = db.collection("Settings");
     
@@ -57,8 +59,10 @@ module.exports.addUserSettingsToDB = async function(userInfo){
                 resolve({success: false, result: {}})
             }
     
-        } finally {
-          await client.close();
+        }
+        catch(err)
+        {
+            reject(err);
         }
     })
 }
@@ -68,7 +72,6 @@ module.exports.changeUserLang = async function(userInfo, newLanguage){
         try{
             if(!userInfo || typeof userInfo != "object") return reject("Entrez un userInfo correct en format array");
 
-            await client.connect();
             let db = client.db("Users");
             let collection = db.collection("Settings");
     
@@ -85,8 +88,10 @@ module.exports.changeUserLang = async function(userInfo, newLanguage){
                 resolve({success: false, result: {}})
             }
     
-        } finally {
-          await client.close();
+        }
+        catch(err)
+        {
+            reject(err);
         }
     })
 }

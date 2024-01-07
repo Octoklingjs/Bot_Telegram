@@ -13,5 +13,7 @@
     "U-00": "Die API ist nicht importiert.",
     "U-01": "Zwingende Argumente müssen angegeben werden.",
     "U-02": "Beim Senden einer Nachricht ist ein Fehler aufgetreten.",
-    "U-03": "Beim Löschen der Nachricht ist ein Fehler aufgetreten."
+    "U-03": "Beim Löschen der Nachricht ist ein Fehler aufgetreten.",
+
+    "L-00": "Die gewählte Sprache ist nicht verfügbar."
 }

@@ -13,5 +13,7 @@
     "U-00": "La API no está importada.",
     "U-01": "Se deben proporcionar argumentos obligatorios.",
     "U-02": "Se ha producido un error al enviar un mensaje.",
-    "U-03": "Se ha producido un error al eliminar el mensaje."
+    "U-03": "Se ha producido un error al eliminar el mensaje.",
+
+    "L-00": "El idioma elegido no está disponible."
 }

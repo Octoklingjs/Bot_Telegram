@@ -13,5 +13,7 @@
     "U-00": "The API is not imported.",
     "U-01": "Mandatory arguments must be provided.",
     "U-02": "An error occurred while sending a message.",
-    "U-03": "An error occurred while deleting the message."
+    "U-03": "An error occurred while deleting the message.",
+
+    "L-00": "This language is not available."
 }

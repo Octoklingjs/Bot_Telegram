@@ -1,5 +1,7 @@
 {
     "start": "Hi there !\nAt the moment, I am still in development by Octokling.",
     "lolocheHello": "Say hello to Octokling",
-    "lolocheHelloSayed": "You said hello"
+    "lolocheHelloSayed": "You said hello",
+
+    "LanguageChanged": "Change of language completed !"
 }

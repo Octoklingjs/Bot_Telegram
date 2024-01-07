@@ -13,6 +13,8 @@
     "U-00": "L'API n'est pas importé",
     "U-01": "Des arguments obligatoires doivent être renseignés !",
     "U-02": "Une erreur est survenue lors de l'envoie d'un message",
-    "U-03": "Une erreur est survenue lors de la suppression du message"
+    "U-03": "Une erreur est survenue lors de la suppression du message",
+
+    "La langue choisi n'est pas disponible": "La langue choisi n'est pas disponible"
 
 }

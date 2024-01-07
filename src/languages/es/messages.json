@@ -1,5 +1,7 @@
 {
     "start": "¡ Hola !\nPor ahora, aún estoy en desarrollo por Octokling.",
     "lolocheHello": "Saluda a Loloche",
-    "lolocheHelloSayed": "Ustedes dijeron hola"
+    "lolocheHelloSayed": "Ustedes dijeron hola",
+
+    "LanguageChanged": "¡ Cambio de idioma completado !"
 }
