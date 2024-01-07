@@ -26,10 +26,8 @@ module.exports.verificationUserAndGetData = async function(userID){
             const result = await collection.findOne({ userID: userID });
     
             if(result){
-                await client.close();
                 resolve( Object.assign({isExist: true}, result) )
             }else{
-                await client.close();
                 resolve({isExist: false})
             }
     
@@ -52,10 +50,8 @@ module.exports.addUserSettingsToDB = async function(userInfo){
             const result = await collection.insertOne({username: userInfo.username, lang: "en", userID: userInfo.id})
     
             if(result){
-                await client.close();
                 resolve({success: true, result: result})
             }else{
-                await client.close();
                 resolve({success: false, result: {}})
             }
     
@@ -84,7 +80,6 @@ module.exports.changeUserLang = async function(userInfo, newLanguage){
                   );
                 resolve({success: true, result: result})
             }else{
-                await client.close();
                 resolve({success: false, result: {}})
             }
     
