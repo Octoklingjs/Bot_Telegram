@@ -1,2 +1,2 @@
-### Knowed issues : 
-Spam message can crash the bot (Thanks mongoDB ^^)
+## Knowed issues : 
+~~Spam message can crash the bot (Thanks mongoDB ^^)~~ Fixed 👍
