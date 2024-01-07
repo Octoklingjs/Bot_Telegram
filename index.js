@@ -110,9 +110,8 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
                     break;
                 case "setlanguage":
                     if(args[0]){
-                        console.log(!args[0].startsWith("fr") || !args[0].startsWith("en") || !args[0].startsWith("de") || !args[0].startsWith("es"))
-                        if(!args[0].startsWith("fr") || !args[0].startsWith("en") || !args[0].startsWith("de") || !args[0].startsWith("es")){ return TelegramUtils.sendTextMessage(chat.id, "L-00", update.message.message_id, undefined, undefined, "errors", userLang);}
-                        userSettingsDB.changeUserLang(update.message.from, args[0]).then(result => {
+                        if(!(args[0].startsWith("fr") || args[0].startsWith("en") || args[0].startsWith("de") || args[0].startsWith("es"))){ return TelegramUtils.sendTextMessage(chat.id, "L-00", update.message.message_id, undefined, undefined, "errors", userLang);}
+                        userSettingsDB.changeUserLang(update.message.from, args[0]).then(()=> {
                             TelegramUtils.sendTextMessage(chat.id, "LanguageChanged", update.message.message_id, undefined, undefined, "messages", (args[0][0] + args[0][1]));
                         })
                     }
