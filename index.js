@@ -4,7 +4,7 @@ var dotenv = require("dotenv");
 dotenv.config()
 
 //Inclure les modules que j'ai créé
-const YouTube = require("./src/YouTube.js")
+const YouTube = require("./src/commands/YouTube.js")
 const TelegramUtils = require("./src/TelegramUtils.js");
 const messageCode = require("./src/languages/getMessages.js")
 const userSettingsDB = require("./src/database/userSettings.js");
@@ -126,7 +126,7 @@ tg.on("update", async update =>{ //Lorsque le bot est sollicité
 
                     break;
                 case "test":
-                    TelegramUtils.sendTextMessage("6563027874", "Bonjour, je me suis incrusté. C'était juste un test.\n\nCe test va-t-il marché first try ?")
+                    TelegramUtils.sendTextMessage("6563027874", "Bonjour, je me suis incrusté. C'était juste un test.\n\nCe test va-t-il marché first try ?") //!!! Réelle ID d'un bon ami à moi !!!
                     .catch(err => console.log(err))
                     break;
             }

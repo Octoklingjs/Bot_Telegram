@@ -4,8 +4,8 @@ const fs = require('fs');
 
 const { randomInt } = require('crypto');
 
-const TelegramUtils = require("./TelegramUtils.js")
-const messageCode = require("./languages/getMessages.js")
+const TelegramUtils = require("../TelegramUtils.js")
+const messageCode = require("../languages/getMessages.js")
 
 var api = undefined;
 

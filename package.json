@@ -10,7 +10,7 @@
     "type": "git",
     "url": "Bot_Telegram"
   },
-  "author": "Octokling & Xiizu",
+  "author": "Octokling",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
