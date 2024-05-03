@@ -1,2 +1,1 @@
-## Knowed issues : 
-~~Spam message can crash the bot (Thanks mongoDB ^^)~~ Fixed 👍
+## This is my first bot for telegram
